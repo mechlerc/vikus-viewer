@@ -16,10 +16,6 @@
         "detail": {
           "size": 1024,
           "url": "./data/images/1024"
-        },
-        "big": {
-          "size": 4096,
-          "url": "./data/images/4096"
         }
       }
     },
