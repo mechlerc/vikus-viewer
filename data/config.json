@@ -1,0 +1,90 @@
+{
+    "project": {
+      "name": "Midiateca FAU-UFRJ",
+      "quality": 1
+   },
+    "loader": {
+      "info": "./data/info.md",
+      "timeline": "./data/timeline.csv",
+      "items": "./data/data.csv",
+      "tsne": "./data/tsne.csv",
+      "textures": {
+        "medium": {
+          "size": 256,
+          "url": "./data/images/sprites/spritesheet.json"
+        },
+        "detail": {
+          "size": 1024,
+          "url": "./data/images/1024"
+        },
+        "big": {
+          "size": 4096,
+          "url": "./data/images/4096"
+        }
+      }
+    },
+    "style": {
+      "fontColor": "#292b2b",
+      "fontColorActive": "#eae2cb",
+      "fontBackground": "#295b71",
+      "textShadow": "1px 1px 0px #f8f4e9",
+      "canvasBackground": "#eae2cb",
+      "timelineBackground": "#fff9eb",
+      "timelineFontColor": "#000",
+      "backgroundHeader": "#035151",
+      "fontColorHeader": "#f8774f",
+      "detailBackground": "#EEE",
+      "infoBackground": "#f5e268",
+      "infoFontColor": "#363636",
+      "searchbarBackground": "#295b71"
+    },
+    "projection": {
+      "columns": 3
+    },
+    "detail": {
+      "structure": [      
+        {
+          "name": "Aluno",
+          "source": "_nomealuno",
+          "display": "column",
+          "type": "text"
+        },
+        {
+          "name": "Projeto",
+          "source": "_nomeprojeto",
+          "display": "column",
+          "type": "text"
+        },
+        {
+            "name": "Legenda da imagem",
+            "source": "_legendaimg",
+            "display": "column",
+            "type": "text"
+        },
+        {
+            "name": "Orientador",
+            "source": "_nomeorientador",
+            "display": "column",
+            "type": "text"
+        },
+        {
+            "name": "Coorientador",
+            "source": "_nomecoorientador",
+            "display": "column",
+            "type": "text"
+        },
+        {
+            "name": "Ano/Periodo",
+            "source": "column.year + '/' + column._periodo",
+            "display": "column",
+            "type": "function"
+          },
+        {
+            "name": "Temas",
+            "source": "_keywords",
+            "display": "column",
+            "type": "array"
+        }
+      ]
+    }
+  }
