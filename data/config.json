@@ -71,7 +71,7 @@
         },
         {
             "name": "Ano/Periodo",
-            "source": "column.year + '/' + column._periodo",
+            "source": "column._ano + '/' + column._periodo",
             "display": "column",
             "type": "function"
           },
