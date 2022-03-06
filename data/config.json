@@ -11,7 +11,7 @@
       "grid": "./data/colors.csv",
       "textures": {
         "medium": {
-          "size": 100,
+          "size": 800,
           "url": "./data/images/sprites/spritesheet.json"
         },
         "detail": {
