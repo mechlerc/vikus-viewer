@@ -96,14 +96,14 @@ utils.fullscreen = function(){
 	}
 }	
 
-utils.clean = function(data, separator) {
+utils.clean = function(data) {
 
 	data.forEach(function(d,i){
 		d.search = Object.keys(d).map(function(e) { return d[e] }).join(' - ').toUpperCase()
 		d.i = i;
 		d.keywords = _(d.keywords)
 		  .chain()
-		  .split(separator || ",")
+		  .split(",")
 		  .map(_.trim)
 		  .uniq()
 		  .filter(function(d) { return d !== "" })

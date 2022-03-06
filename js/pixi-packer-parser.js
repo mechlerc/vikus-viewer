@@ -23,8 +23,7 @@ window.pixiPackerParser = function (PIXI) {
       !resource.data ||
       resource.type !== PIXI.LoaderResource.TYPE.JSON ||
       !resource.data.meta ||
-      (resource.data.meta.type !== "pixi-packer" && 
-       resource.data.meta.type !== "sharpsheet")
+      resource.data.meta.type !== "pixi-packer"
     ) {
       return next();
     }
@@ -48,7 +47,7 @@ window.pixiPackerParser = function (PIXI) {
     var urlForManifest = resource.url.replace(loader.baseUrl, "");
     var route = pathWithoutFile(urlForManifest);
 
-    var resolution = 1;
+    var resolution = resource.data.resolution;
 
     if (resource.data.spritesheets.length && loader.progress === 100) {
       // This is a temporary workaround until a solution for https://github.com/englercj/resource-loader/pull/32 is found

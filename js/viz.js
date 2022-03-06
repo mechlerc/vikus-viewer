@@ -55,11 +55,11 @@ function init() {
 	d3.json("data/config.json", function (config) {
 
 		utils.initConfig(config)
-		
+
 		Loader(config.loader.timeline).finished(function (timeline) {
 			Loader(config.loader.items).finished(function (data) {
 
-				utils.clean(data, config.delimiter);
+				utils.clean(data);
 
 				tags.init(data, config);
 				search.init();
@@ -70,13 +70,6 @@ function init() {
 						console.log(tsne)
 						d3.select(".navi").classed("hide", false)
 						canvas.addTsneData(tsne)
-					})
-				}
-				if (config.loader.grid) {
-					d3.csv(config.loader.grid, function(grid) {
-						console.log(grid);
-						d3.select(".navi").classed("hide", false);
-						canvas.addGridData(grid);
 					})
 				}
 
@@ -130,7 +123,7 @@ function init() {
 	d3.selectAll(".navi .button")
 		.on("click", function () {
 			var that = this;
-			var mode = d3.select(this).attr('data-mode');
+			var mode = d3.select(this).attr("data");
 			canvas.setMode(mode);
 			timeline.setDisabled(mode != "time");
 
