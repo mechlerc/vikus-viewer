@@ -140,6 +140,9 @@ cpietsch@gmail.com
                   <span v-else-if="entry.type === 'markdown'">
                     <span v-html="getContent(entry)"></span>
                   </span>
+                  <span v-else-if="entry.type === 'function'">
+                    <span v-html="getContent(entry)"></span>
+                  </span>
                   <span v-else>
                     {{ getContent(entry) }}
                   </span>
@@ -151,10 +154,11 @@ cpietsch@gmail.com
       </div>
 
       <div class="navi hide">
-        <div class="button active">time</div>
+        <div class="time button active" data="time">time</div>
+        <div class="tsne button" data="tsne">similarity</div>
       </div>
 
-      <div class="infobar sneak">
+      <div class="infobar">
         <div class="infobutton">
           <svg width="16px" height="24px" viewBox="0 0 16 24">
             <path
@@ -171,9 +175,9 @@ cpietsch@gmail.com
               <span v-html="marked(info)"></span>
               <div class="credit">
                 Powered by
-                <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">
-                  VIKUS Viewer
-                </a>
+                <a href="https://vikusviewer.fh-potsdam.de/" target="_blank"
+                  >VIKUS Viewer</a
+                >
               </div>
             </div>
           </div>
