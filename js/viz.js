@@ -72,6 +72,13 @@ function init() {
 						canvas.addTsneData(tsne)
 					})
 				}
+				if (config.loader.grid) {
+					d3.csv(config.loader.grid, function(grid) {
+						console.log(grid);
+						d3.select(".navi").classed("hide", false);
+						canvas.addGridData(grid);
+					})
+				}
 
 				LoaderSprites()
 					.progress(function (textures) {
@@ -123,7 +130,7 @@ function init() {
 	d3.selectAll(".navi .button")
 		.on("click", function () {
 			var that = this;
-			var mode = d3.select(this).attr("data");
+			var mode = d3.select(this).attr('data-mode');
 			canvas.setMode(mode);
 			timeline.setDisabled(mode != "time");
 
