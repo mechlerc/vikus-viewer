@@ -140,6 +140,13 @@ function Canvas() {
   canvas.makeScales = function () {
     x.rangeBands([margin.left, width + margin.left], 0.2);
 
+    // adjust columns denominator for different projections
+    if (state.mode == "grid") {
+        columns = 1.75;
+    } else if (state.mode == "tsne") {
+        columns = 2;
+    }
+
     rangeBand = x.rangeBand();
     rangeBandImage = x.rangeBand() / columns;
 
