@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>DATA-VIZ: Midiateca</title>
+    <title>VikusViewer</title>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
@@ -77,62 +77,7 @@ christopher pietsch
 cpietsch@gmail.com
 2015-2018
 
- -->
- <style>
-  .year {display: none;}
-  .navi .button.active {
-    background: #fa1b66;
-    color: white;
-  }
-  .navi .button {
-    font-size: 16px;
-    width: 100px;
-    height: 24px;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    padding-left: 12px;
-    text-align: left;
-    text-transform: none;
-    font-weight:normal;
-    letter-spacing: .5px;
-    text-rendering: geometricPrecision;
-    border-radius: 0 5px 5px 0;
-  }
-  div.logo {
-    position:absolute;
-    left:25px;
-    bottom: 20px;
-    z-index: 300;
-    opacity: .2;
-  }
-  @font-face {
-    font-family: 'gt_walsheimbold';
-    src: url('font/walsheim/gt-walsheim-bold-webfont.woff2') format('woff2'),
-         url('font/walsheim/gt-walsheim-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-@font-face {
-    font-family: 'gt_walsheimregular';
-    src: url('font/walsheim/gt-walsheim-regular-webfont.woff2') format('woff2'),
-         url('font/walsheim/gt-walsheim-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-div.sidebar, div.infobar {font-family: 'gt_walsheimregular', sans-serif;}
-body, .detail h1, .infobar h1 {font-family: 'gt_walsheimbold', sans-serif;font-weight:normal;}
-.tagcloud {font-synthesis: none; font-weight: normal;letter-spacing: 1px;}
-.tag.active {border-radius: 0 5px 5px 0;}
-.detail {width:420px;}
-.infobar h1 {font-size:32px; text-transform: none}
-.searchbar .button {right:30px; border-radius: 0 0 5px 5px;}
-.detailLoader .indicator{background: rgba(255, 255, 255, 1);}
-.detailLoader .label {color: rgba(0, 0, 0, 0.1);}
-
-</style>
-</head>
+ --></head>
 
   <body>
     <div id="hiddenreload"></div>
@@ -209,8 +154,8 @@ body, .detail h1, .infobar h1 {font-family: 'gt_walsheimbold', sans-serif;font-w
       </div>
 
       <div class="navi hide">
-        <div class="time button active" data="time">Color grid</div>
-        <div class="tsne button" data="tsne">Similarity</div>
+        <div class="time button active" data="time">time</div>
+        <div class="tsne button" data="tsne">similarity</div>
       </div>
 
       <div class="infobar">
@@ -222,7 +167,6 @@ body, .detail h1, .infobar h1 {font-family: 'gt_walsheimbold', sans-serif;font-w
               stroke-width="5"
             ></path>
           </svg>
-          <!-- <img src="img/infobutton2.svg" width="16px" style="width:16px">-->
         </div>
 
         <div class="outer">
@@ -230,8 +174,10 @@ body, .detail h1, .infobar h1 {font-family: 'gt_walsheimbold', sans-serif;font-w
             <div id="infobar" class="infosidebar">
               <span v-html="marked(info)"></span>
               <div class="credit">
-                Dados extraídos do Portal Midiateca 06/02/2022<br><br>
-                <br/>Based on the <a href="https://vikusviewer.fh-potsdam.de/" target="_blank">VIKUS Viewer</a> framework
+                Powered by
+                <a href="https://vikusviewer.fh-potsdam.de/" target="_blank"
+                  >VIKUS Viewer</a
+                >
               </div>
             </div>
           </div>

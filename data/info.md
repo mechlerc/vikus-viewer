@@ -1,6 +1,6 @@
 # Visualização de dados da Midiateca FAU-UFRJ
 
-Esta visualização está sendo desenvolvida para o Trabalho Final de Graduação do curso de Arquitetura e Urbanismo da Universidade Federal do Rio de Janeiro (FAU-UFRJ), pela aluna Cíntia Mechler sob orientação de Rodrigo Cury Paraizo e Gonçalo Castro Henriques. Trata-se de uma experimentação de visualização de dados do acervo digital de Trabalho Final de Graduação (TFG) da FAU-UFRJ - a Midiateca. O conteúdo presente ainda está em fase de testes e não reflete a versão final do trabalho.
+Esta visualização foi desenvolvida para o Trabalho Final de Graduação do curso de Arquitetura e Urbanismo da Universidade Federal do Rio de Janeiro (FAU-UFRJ), pela aluna Cíntia Mechler sob orientação de Rodrigo Cury Paraizo e Gonçalo Castro Henriques. Trata-se de uma experimentação de visualização de dados do acervo digital de Trabalho Final de Graduação (TFG) da FAU-UFRJ - o Portal Midiateca. Os dados foram extraídos dia 06/02/2022 e pode nao refletir com o atual estado do banco de dados.
 
 As imagens dos trabalhos estão organizados em linha do tempo e gráfico de dispersão em relação a sua similaridade. Para trocar de visualizações, utilize os botões a esquerda.
 
