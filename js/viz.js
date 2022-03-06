@@ -55,22 +55,18 @@ function init() {
 	d3.json("data/config.json", function (config) {
 
 		utils.initConfig(config)
-		
-		Loader(config.loader.timeline).finished(function (timeline) {
+
+		Loader(config.loader.timeline).finished(function (timelinedata) {
 			Loader(config.loader.items).finished(function (data) {
 
-				utils.clean(data, config.delimiter);
+				utils.clean(data);
 
 				tags.init(data, config);
 				search.init();
-				canvas.init(data, timeline, config);
+				canvas.init(data, timelinedata, config);
 
-				if (config.loader.tsne) {
-					d3.csv(config.loader.tsne, function (tsne) {
-						console.log(tsne)
-						d3.select(".navi").classed("hide", false)
-						canvas.addTsneData(tsne)
-					})
+				if (config.loader.layouts) {
+					initLayouts(config);
 				}
 
 				LoaderSprites()
@@ -120,17 +116,34 @@ function init() {
 			d3.select(".infobar").classed("sneak", s)
 		})
 
-	d3.selectAll(".navi .button")
-		.on("click", function () {
-			var that = this;
-			var mode = d3.select(this).attr("data");
-			canvas.setMode(mode);
-			timeline.setDisabled(mode != "time");
+	
 
-			d3.selectAll(".navi .button").classed("active", function () {
-				return that === this
+	function initLayouts(config) {
+		d3.select(".navi").classed("hide", false);
+
+		config.loader.layouts.forEach(d => {
+			d3.csv(d.url, function (tsne) {
+				canvas.addTsneData(d.title, tsne);
 			});
-		})
+		});
+
+		var layouts = config.loader.layouts;
+		layouts.unshift({ title: "time" });
+
+		var s = d3.select(".navi")
+			.selectAll('.button')
+			.data(config.loader.layouts);
+		s.enter()
+			.append('div')
+			.classed("button", true)
+			.text(d => d.title);
+		s.on("click", function (d) {
+			canvas.setMode(d.title);
+			timeline.setDisabled(d.title != "time");
+			d3.selectAll(".navi .button")
+				.classed("active", d => d.title == canvas.getMode());
+		});
+	}
 }
 
 d3.select(".browserInfo").classed("show", utils.isMobile());

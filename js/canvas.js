@@ -62,7 +62,7 @@ function Canvas() {
   var imageSize = 256;
   var imageSize2 = 1024;
   var imageSize3 = 4000;
-  var columns = 4;
+  var collumns = 4;
   var renderer, stage;
 
   var svgscale, voronoi;
@@ -106,7 +106,7 @@ function Canvas() {
   var tsne = [];
   var tsneIndex = {};
 
-  function canvas() { }
+  function canvas() {}
 
   canvas.rangeBand = function () {
     return rangeBand;
@@ -140,13 +140,13 @@ function Canvas() {
     x.rangeBands([margin.left, width + margin.left], 0.2);
 
     rangeBand = x.rangeBand();
-    rangeBandImage = x.rangeBand() / columns;
+    rangeBandImage = x.rangeBand() / collumns;
 
-    imgPadding = rangeBand / columns / 2;
+    imgPadding = rangeBand / collumns / 2;
 
-    scale1 = imageSize / (x.rangeBand() / columns);
-    scale2 = imageSize2 / (x.rangeBand() / columns);
-    scale3 = imageSize3 / (x.rangeBand() / columns);
+    scale1 = imageSize / (x.rangeBand() / collumns);
+    scale2 = imageSize2 / (x.rangeBand() / collumns);
+    scale3 = imageSize3 / (x.rangeBand() / collumns);
 
     stage3.scale.x = 1 / scale1;
     stage3.scale.y = 1 / scale1;
@@ -163,7 +163,7 @@ function Canvas() {
     timeline.rescale(scale1);
 
     cursorCutoff = (1 / scale1) * imageSize * 0.48;
-    zoomedToImageScale = 0.8 / (x.rangeBand() / columns / width);
+    zoomedToImageScale = 0.8 / (x.rangeBand() / collumns / width);
     // console.log("zoomedToImageScale", zoomedToImageScale)
   };
 
@@ -174,7 +174,7 @@ function Canvas() {
     container = d3.select(".page").append("div").classed("viz", true);
     detailVue._data.structure = config.detail.structure;
 
-    columns = config.projection.columns;
+    collumns = config.projection.columns;
     imageSize = config.loader.textures.medium.size;
     imageSize2 = config.loader.textures.detail.size;
 
@@ -225,7 +225,7 @@ function Canvas() {
       })
       .entries(_data.concat(_timeline))
       .sort(function (a, b) {
-        return parseInt(a.key) - parseInt(b.key);
+        return a.key - b.key;
       })
       .map(function (d) {
         return d.key;
@@ -308,8 +308,8 @@ function Canvas() {
     state.init = true;
   };
 
-  canvas.addTsneData = function (d) {
-    console.time("tsne");
+  canvas.addTsneData = function (name, d) {
+    tsneIndex[name] = {};
     var clean = d.map(function (d) {
       return {
         id: d.id,
@@ -328,10 +328,8 @@ function Canvas() {
     var y = d3.scale.linear().range([0, 1]).domain(yExtent);
 
     d.forEach(function (d) {
-      tsneIndex[d.id] = [x(d.x), y(d.y)];
+      tsneIndex[name][d.id] = [x(d.x), y(d.y)];
     });
-
-    console.timeEnd("tsne");
   };
 
   function mousemove(d) {
@@ -353,9 +351,9 @@ function Canvas() {
     );
 
     selectedImageDistance = best.d;
+    // console.log(cursorCutoff,scale, scale1,  selectedImageDistance)
 
-
-    if (state.mode == "time" && rangeBandImage * scale + p[1] > 0 && selectedImageDistance > rangeBandImage / 2) {
+    if (bottomZooming && best.p && best.p.ii < 3 && selectedImageDistance > 7) {
       selectedImage = null;
       zoom.center(null);
       container.style("cursor", "default");
@@ -394,11 +392,11 @@ function Canvas() {
       });
 
       year.values.forEach(function (d, i) {
-        var row = Math.floor(i / columns) + 2;
+        var row = Math.floor(i / collumns) + 2;
         d.ii = i;
 
-        d.x = startX + (i % columns) * (rangeBand / columns);
-        d.y = (invert ? 1 : -1) * (row * (rangeBand / columns));
+        d.x = startX + (i % collumns) * (rangeBand / collumns);
+        d.y = (invert ? 1 : -1) * (row * (rangeBand / collumns));
 
         d.x1 = d.x * scale1 + imageSize / 2;
         d.y1 = d.y * scale1 + imageSize / 2;
@@ -481,6 +479,10 @@ function Canvas() {
     canvas.project();
   };
 
+  canvas.getMode = function () {
+    return state.mode;
+  };
+
   function animate(time) {
     requestAnimationFrame(animate);
     loadImages();
@@ -507,9 +509,9 @@ function Canvas() {
     zoom.center(null);
     loadMiddleImage(d);
     d3.select(".tagcloud").classed("hide", true);
-    var padding = x.rangeBand() / columns / 2;
+    var padding = x.rangeBand() / collumns / 2;
     var sidbar = width / 8;
-    var scale = 0.8 / (x.rangeBand() / columns / width);
+    var scale = 0.8 / (x.rangeBand() / collumns / width);
     var translateNow = [
       -scale * (d.x - padding / 2) - sidbar,
       -scale * (height + d.y),
@@ -683,10 +685,16 @@ function Canvas() {
 
   canvas.project = function () {
     sleep = false;
-    if (state.mode == "tsne") {
-      canvas.projectTSNE();
-    } else {
+    data.forEach(function (d) {
+      //d.scaleFactor = state.mode != "time" ? 0.9 : 0.9;
+      d.sprite.scale.x = d.scaleFactor;
+      d.sprite.scale.y = d.scaleFactor;
+    });
+
+    if (state.mode == "time") {
       canvas.split();
+    } else {
+      canvas.projectTSNE();
     }
     canvas.resetZoom();
   };
@@ -719,7 +727,7 @@ function Canvas() {
 
     active.forEach(function (d) {
       var factor = height / 2;
-      var tsneEntry = tsneIndex[d.id];
+      var tsneEntry = tsneIndex[state.mode][d.id];
       if (tsneEntry) {
         d.x =
           tsneEntry[0] * dimension + width / 2 - dimension / 2 + margin.left;
@@ -786,7 +794,7 @@ function Canvas() {
       var p = d.sprite.position;
       var x = p.x / scale1 + translate[0] / zoomScale;
       var y = p.y / scale1 + translate[1] / zoomScale;
-      var padding = width / 3 / scale;
+      var padding = 5;
 
       if (
         x > -padding &&
@@ -825,7 +833,7 @@ function Canvas() {
 
     // console.log("load", d)
     var url = config.loader.textures.detail.url + d.id + ".jpg";
-    var texture = new PIXI.Texture.from(url);
+    var texture = new PIXI.Texture.fromImage(url, true);
     var sprite = new PIXI.Sprite(texture);
 
     var update = function () {
@@ -860,24 +868,20 @@ function Canvas() {
     var page = d.page ? "_" + d.page : "";
     var url = config.loader.textures.big.url + d.id + page + ".jpg";
 
-    var texture = new PIXI.Texture.from(url);
+    var texture = new PIXI.Texture.fromImage(url, true);
     var sprite = new PIXI.Sprite(texture);
     var res = config.loader.textures.big.size;
 
-    var updateSize = function (t) {
+    var updateSize = function () {
       var size = Math.max(texture.width, texture.height);
       sprite.scale.x = sprite.scale.y = (imageSize3 / size) * d.scaleFactor;
       sleep = false;
-      if (t.valid) {
-        d.alpha = 0;
-        d.alpha2 = 0;
-      }
     };
 
     sprite.on("added", updateSize);
     texture.once("update", updateSize);
 
-    if (d.imagenum > 1) {
+    if (d.imagenum) {
       sprite.on("mousemove", function (s) {
         var pos = s.data.getLocalPosition(s.currentTarget);
         s.currentTarget.cursor = pos.x > 0 ? "e-resize" : "w-resize";
